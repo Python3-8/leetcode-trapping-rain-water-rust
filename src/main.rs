@@ -16,6 +16,12 @@ mod tests {
     #[test]
     fn leetcode_case_2() {
         let height = vec![4, 2, 0, 3, 2, 5];
+        /* TODO at iteration 5, when looking for near crests, it finds
+        index 3 instead of index 0. The problem is that I depend on the
+        left crest to find the right crest, but I need to also depend on
+        the right crest to find the left crest. No idea what to do. Maybe
+        two pointers going out from the middle?
+        */
         let output = 9;
         assert_eq!(Solution::trap(height), output);
     }

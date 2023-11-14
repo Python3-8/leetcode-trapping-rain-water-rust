@@ -5,6 +5,8 @@
 
     After a bit of thinking I realized that the first and last
     indices can never hold water.
+
+    Doing shit with crests. No idea what I'm doing.
 */
 
 impl Solution {
@@ -27,8 +29,11 @@ impl Solution {
             let nearest_taller_left_crest_index =
                 Self::get_nearest_taller_crest_index_left(&heights[..curr_index], curr_height);
             let nearest_taller_left_crest = heights[nearest_taller_left_crest_index];
-            let nearest_taller_right_crest_index =
-                Self::get_nearest_taller_crest_index_right(&heights, curr_index + 1, curr_height);
+            let nearest_taller_right_crest_index = Self::get_nearest_taller_crest_index_right(
+                &heights,
+                curr_index + 1,
+                nearest_taller_left_crest,
+            );
             let nearest_taller_right_crest = heights[nearest_taller_right_crest_index];
             println!(
                 "nearest taller left crest: {nearest_taller_left_crest} at index {nearest_taller_left_crest_index}"
@@ -61,7 +66,11 @@ impl Solution {
             }
             prev_index = curr_index;
         }
-        *crests.first().unwrap_or(&0)
+        let index = *crests.first().unwrap_or(&0);
+        if from_slice[0] > from_slice[index] {
+            return 0;
+        }
+        return index;
     }
 
     pub fn get_nearest_taller_crest_index_right(
@@ -72,6 +81,7 @@ impl Solution {
         let mut prev_height = i32::MIN;
         let mut prev_index = 0;
         let mut crests = Vec::new();
+        let last_index = from_slice.len() - 1;
         for (curr_index, &curr_height) in from_slice.iter().enumerate().skip(skip) {
             if curr_height > prev_height {
                 prev_height = curr_height;
@@ -84,7 +94,11 @@ impl Solution {
             }
             prev_index = curr_index;
         }
-        *crests.first().unwrap_or(&0)
+        let index = *crests.first().unwrap_or(&0);
+        if from_slice[last_index] > from_slice[index] {
+            return last_index;
+        }
+        return index;
     }
 }
 
