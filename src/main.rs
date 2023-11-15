@@ -36,14 +36,6 @@ mod tests {
 
     #[test]
     fn test_get_relevant_crest_indices() {
-        // assert_eq!(
-        //     Solution::get_relevant_crest_indices(&[5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 5),
-        //     Some((0, 10))
-        // );
-        // assert_eq!(
-        //     Solution::get_relevant_crest_indices(&[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0], 5),
-        //     None
-        // );
         assert_eq!(
             Solution::get_relevant_crest_indices(&[5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 5),
             (0, 10)
@@ -52,6 +44,13 @@ mod tests {
             Solution::get_relevant_crest_indices(&[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0], 5),
             (0, 10)
         );
+    }
+
+    #[test]
+    fn my_own_test_case() {
+        let height = vec![9, 4, 0, 0, 8, 8, 9, 2, 2, 5, 7, 1, 0];
+        let output = 37;
+        assert_eq!(Solution::trap(height), output);
     }
 }
 

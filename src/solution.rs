@@ -12,6 +12,12 @@
     stuff that I thought would work. After a lot of fighting
     with my code, now it's working for the two test cases on
     LeetCode. Idk if I can submit it though
+
+    I GOT IT WORKING! IT EVEN WORKS WITH MY OWN TEST CASE!!!
+
+    Lmao I was wondering why LeetCode was giving me 1,500 ms,
+    then I realized I left in the println!() calls I used for
+    debugging
 */
 
 impl Solution {
@@ -20,25 +26,18 @@ impl Solution {
         let last_idx = len - 1;
         let mut total_water = 0;
         for (curr_idx, &curr_height) in heights.iter().enumerate() {
-            println!("ITERATION NUMBER: {}", curr_idx + 1);
-            println!("current idx: {curr_idx}, current height: {curr_height}");
-            println!("total water before shit: {total_water}");
             if curr_idx == 0 || curr_idx == last_idx {
-                println!();
                 continue;
             }
             let (left_crest_idx, right_crest_idx) =
                 Self::get_relevant_crest_indices(&heights, curr_idx);
             let (left_crest, right_crest) = (heights[left_crest_idx], heights[right_crest_idx]);
-            println!("left crest: {left_crest} at idx {left_crest_idx}");
-            println!("right crest: {right_crest} at idx {right_crest_idx}");
             if curr_height < left_crest && right_crest > curr_height {
                 let change = std::cmp::min(left_crest, right_crest) - curr_height;
                 if change > 0 {
                     total_water += change;
                 }
             }
-            println!("total water after shit: {total_water}\n");
         }
         total_water
     }
@@ -53,7 +52,11 @@ impl Solution {
             if curr_height < prev_height && prev_height > taller_than {
                 crest_indices.push(prev_idx);
             }
-            (prev_idx, prev_height) = (curr_idx, curr_height);
+            // (prev_idx, prev_height) = (curr_idx, curr_height);
+            // Apparently in the Rust version that LeetCode uses, the
+            // above statement is unstable
+            prev_idx = curr_idx;
+            prev_height = curr_height;
         }
         if len >= 2 {
             let first = heights[0];
@@ -74,7 +77,9 @@ impl Solution {
             if curr_height < prev_height && prev_height > taller_than {
                 crest_indices.push(prev_idx);
             }
-            (prev_idx, prev_height) = (curr_idx, curr_height);
+            // (prev_idx, prev_height) = (curr_idx, curr_height);
+            prev_idx = curr_idx;
+            prev_height = curr_height;
         }
         if len >= 2 {
             let last_index = len - 1;
