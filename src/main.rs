@@ -1,10 +1,8 @@
 mod solution;
 
-use solution::Solution;
-
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use super::solution::Solution;
 
     #[test]
     fn leetcode_case_1() {
@@ -16,35 +14,43 @@ mod tests {
     #[test]
     fn leetcode_case_2() {
         let height = vec![4, 2, 0, 3, 2, 5];
-        /* TODO at iteration 5, when looking for near crests, it finds
-        index 3 instead of index 0. The problem is that I depend on the
-        left crest to find the right crest, but I need to also depend on
-        the right crest to find the left crest. No idea what to do. Maybe
-        two pointers going out from the middle?
-        */
         let output = 9;
         assert_eq!(Solution::trap(height), output);
     }
 
     #[test]
-    fn test_get_tallest_index() {
-        println!("testing left");
+    fn test_get_left_crest_indices() {
         assert_eq!(
-            Solution::get_nearest_taller_crest_index_left(&[0, 1, 0, 2, 1, 0], 0),
-            3
+            Solution::get_left_crest_indices(&[7, 1, 2, 3, 4, 5, 6, 7, 8, 0, 10], 8),
+            vec![]
+        );
+    }
+
+    #[test]
+    fn test_get_right_crest_indices() {
+        assert_eq!(
+            Solution::get_right_crest_indices(&[7, 1, 2, 3, 4, 5, 6, 7, 0, 1, 0, 10], 8),
+            vec![9, 11]
+        );
+    }
+
+    #[test]
+    fn test_get_relevant_crest_indices() {
+        // assert_eq!(
+        //     Solution::get_relevant_crest_indices(&[5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 5),
+        //     Some((0, 10))
+        // );
+        // assert_eq!(
+        //     Solution::get_relevant_crest_indices(&[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0], 5),
+        //     None
+        // );
+        assert_eq!(
+            Solution::get_relevant_crest_indices(&[5, 4, 3, 2, 1, 0, 1, 2, 3, 4, 5], 5),
+            (0, 10)
         );
         assert_eq!(
-            Solution::get_nearest_taller_crest_index_left(&[1, 2, 3, 4, 5, 0, 1, 2, 4, 0], 0),
-            8
-        );
-        println!("testing right");
-        assert_eq!(
-            Solution::get_nearest_taller_crest_index_right(&[0, 1, 0, 2, 1, 0], 0, 0),
-            1
-        );
-        assert_eq!(
-            Solution::get_nearest_taller_crest_index_right(&[1, 2, 3, 4, 5, 0, 1, 2, 4, 0], 0, 0),
-            4
+            Solution::get_relevant_crest_indices(&[0, 1, 2, 3, 4, 5, 4, 3, 2, 1, 0], 5),
+            (0, 10)
         );
     }
 }
